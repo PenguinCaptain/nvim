@@ -1,0 +1,23 @@
+{
+  "Comment.nvim": { "branch": "master", "commit": "e1fe53117aab24c378d5e6deaad786789c360123" },
+  "bufferline.nvim": { "branch": "main", "commit": "41660189da6951d14436147dff30ed7f0d12ed01" },
+  "coc.nvim": { "branch": "release", "commit": "bbaa1d5d1ff3cbd9d26bb37cfda1a990494c4043" },
+  "cutlass.nvim": { "branch": "main", "commit": "708864fb2263226aabceaf5b2c2eee9841132668" },
+  "lazy.nvim": { "branch": "main", "commit": "761b8388af5bcb451e30d886163fcd129278e1d1" },
+  "leap.nvim": { "branch": "main", "commit": "2950d4826fb92ec3b56c59b5d4f2d575a84cb3fa" },
+  "lualine.nvim": { "branch": "master", "commit": "05d78e9fd0cdfb4545974a5aa14b1be95a86e9c9" },
+  "nvim-autopairs": { "branch": "master", "commit": "7747bbae60074acf0b9e3a4c13950be7a2dff444" },
+  "nvim-tree.lua": { "branch": "master", "commit": "9ef6c3cd8805d868d20106be09ce07f004e8232f" },
+  "nvim-treesitter": { "branch": "master", "commit": "b8ddb83d606c9f7f6b76843246ee9820353b417e" },
+  "nvim-treesitter-endwise": { "branch": "master", "commit": "944b0d85bb6817948eaaf78893cbb23c25641d8f" },
+  "nvim-ts-autotag": { "branch": "main", "commit": "40615e96075c743ef47aaf9de966dc348bec6459" },
+  "nvim-ts-rainbow2": { "branch": "master", "commit": "a1e460f126db0bc3dc9e0cbad157e5671ffd2046" },
+  "nvim-web-devicons": { "branch": "master", "commit": "e283ab937e0197b37ec5d8013e49495193407324" },
+  "switch.vim": { "branch": "main", "commit": "a3fd7bf4d61fdbe00356a646744b2fe6f97524b6" },
+  "tmux.nvim": { "branch": "main", "commit": "57220071739c723c3a318e9d529d3e5045f503b8" },
+  "tokyonight.nvim": { "branch": "main", "commit": "6972aade12a9c6ecbbd163739d7617c21fc6bc4b" },
+  "vim-repeat": { "branch": "master", "commit": "24afe922e6a05891756ecf331f39a1f6743d3d5a" },
+  "vim-surround": { "branch": "master", "commit": "3d188ed2113431cf8dac77be61b842acb64433d9" },
+  "wildfire.vim": { "branch": "master", "commit": "b371e2b1d938ae0e164146136051de164ecb9aa5" },
+  "wrapping.nvim": { "branch": "master", "commit": "c04a7163dc692d80a2907d06a3af8df1fedffec2" }
+}
