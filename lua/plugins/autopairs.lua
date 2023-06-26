@@ -1,6 +1,8 @@
 return {
     'windwp/nvim-autopairs',
+    enabled = require("plugins.treesitter").enabled,
     opts = {
+        map_cr = false,
         check_ts = true,
         fast_wrap = {
             map = '<M-e>',
@@ -15,6 +17,6 @@ return {
     },
     config = function(_, opts)
         local npairs = require('nvim-autopairs')
-        npairs.setup(opts) 
+        npairs.setup(opts)
     end,
 }

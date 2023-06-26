@@ -1,8 +1,32 @@
-local M = {
+return {
     "nvim-treesitter/nvim-treesitter",
     opts = {
-        ensure_installed = { "vim", "bash", "c", "cpp", "javascript", "lua"},
-        highlight = { enable = true },
+        ensure_installed = {
+            "arduino",
+            "c",
+            "c_sharp",
+            "cpp",
+            "java",
+            "javascript",
+            "json",
+            "lua",
+            "markdown",
+            "python",
+            "query",
+            "rust",
+            "toml",
+            "typescript",
+            "vim",
+            "vimdoc",
+            "yaml",
+        },
+        sync_install = false,
+        ignore_install = { "" },
+        highlight = {
+            enable = true,
+            disable = { "" },
+            additional_vim_regex_highlighting = true,
+        },
         indent = { enable = true},
         rainbow = {
             enable = true,
@@ -15,9 +39,6 @@ local M = {
         endwise = {
             enable = true,
         },
-        indent = {
-            enable = true,
-        },
     },
     config = function(_,opts)
         require'nvim-treesitter.configs'.setup(opts)
@@ -26,5 +47,3 @@ local M = {
         require("nvim-treesitter.install").update({ with_sync = true })
     end,
 }
-
-return { M }
