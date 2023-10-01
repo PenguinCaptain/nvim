@@ -69,24 +69,5 @@ keymap.set("t", "<C-q>", "<C-\\><C-n>:bd!<cr>", opts)
 -- Wrapping
 keymap.set("n", "<leader>wp", ":ToggleWrapMode<CR>", opts)
 
--- Format the buffer
-keymap.set("n", "<leader>=", ":call CocAction('format')<CR>", opts)
-
 -- Destroy the buffer
 keymap.set("n", "<leader>q", ":bd<CR>", opts)
-
--- Coc
-keymap.set("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()',
-    { silent = true, noremap = true, expr = true })
-keymap.set("i", "<S-TAB>", 'coc#pum#visible() ? coc#pum#prev(1) : "<C-h>"', { noremap = true, expr = true })
-keymap.set("i", "<CR>",
-    'coc#pum#visible() ? coc#pum#confirm() : "<C-g>u<C-r>=v:lua.require\'nvim-autopairs\'.autopairs_cr()<CR><C-r>=coc#on_enter()<CR>"',
-    { silent = true, noremap = true, expr = true })
-keymap.set("i", "<M-Enter>", "coc#refresh()", { silent = true, noremap = true, expr = true })
-keymap.set("n", "[g", "<Plug>(coc-diagnostic-prev)", opts)
-keymap.set("n", "]g", "<Plug>(coc-diagnostic-next)", opts)
-keymap.set("n", "gb", "<Plug>(coc-cursors-word)", opts)
-keymap.set("n", "gd", "<Plug>(coc-definition)", opts)
-keymap.set("n", "gy", "<Plug>(coc-type-definition)", opts)
-keymap.set("n", "gi", "<Plug>(coc-implementation)", opts)
-keymap.set("n", "gr", "<Plug>(coc-references)", opts)

@@ -33,6 +33,9 @@ opt.mouse:append("a")
 -- System Clipboard
 opt.clipboard:append{"unnamed","unnamedplus"}
 
+-- Keep 10 lines above and below the cursor
+opt.scrolloff = 10
+
 -- Copy highlight
 autocmd("TextYankPost", {
     callback = function()
@@ -65,18 +68,9 @@ opt.smartcase = true
 opt.termguicolors = true
 opt.signcolumn = "yes"
 
--- Coc
-g.coc_global_extensions = {
-    'coc-marketplace',
-    'coc-json',
-    'coc-vimlsp',
-    'coc-lua',
-    'coc-eslint',
-    'coc-pyright',
-    'coc-java',
-    'coc-prettier',
-    'coc-tsserver'
-}
+-- Copilot
+g.copilot_no_tab_map = true
+
 
 opt.hidden = true
 opt.updatetime = 300
@@ -87,15 +81,3 @@ function _G.check_back_space()
     return col == 0 or fn.getline('.'):sub(col, col):match('%s')
 end
 
-function _G.show_docs()
-    if api.nvim_eval("CocAction('hasProvider', 'hover')") then
-        fn.CocActionAsync("definitionHover")
-        return true
-    else
-        return false
-    end
-end
-
-autocmd('CursorHold', {
-    command = "silent call CocActionAsync('highlight')"
-})

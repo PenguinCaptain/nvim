@@ -72,9 +72,7 @@ return {
         vim.keymap.set('n', '<leader>k', function()
             local winid = require('ufo').peekFoldedLinesUnderCursor()
             if not winid then
-                if not _G.show_docs() then
-                    vim.api.nvim_feedkeys("<leader>k","in")
-                end
+                vim.lsp.buf.hover()
             end
         end)
     end
