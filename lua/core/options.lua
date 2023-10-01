@@ -31,7 +31,7 @@ opt.cursorline = true
 opt.mouse:append("a")
 
 -- System Clipboard
-opt.clipboard:append{"unnamed","unnamedplus"}
+opt.clipboard:append({ "unnamed", "unnamedplus" })
 
 -- Keep 10 lines above and below the cursor
 opt.scrolloff = 10
@@ -46,11 +46,11 @@ autocmd("TextYankPost", {
 })
 
 -- Auto mkdir
-autocmd('BufWritePre', {
+autocmd("BufWritePre", {
     command = 'call mkdir(expand("<afile>:p:h"), "p")',
 })
 
-autocmd('TermOpen', {
+autocmd("TermOpen", {
     callback = function()
         vim.cmd("setlocal nonumber\nnormal a")
     end,
@@ -71,13 +71,11 @@ opt.signcolumn = "yes"
 -- Copilot
 g.copilot_no_tab_map = true
 
-
 opt.hidden = true
 opt.updatetime = 300
-opt.shortmess:append('c')
+opt.shortmess:append("c")
 
 function _G.check_back_space()
-    local col = fn.col('.') - 1
-    return col == 0 or fn.getline('.'):sub(col, col):match('%s')
+    local col = fn.col(".") - 1
+    return col == 0 or fn.getline("."):sub(col, col):match("%s")
 end
-
