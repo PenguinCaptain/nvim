@@ -79,3 +79,18 @@ function _G.check_back_space()
     local col = fn.col(".") - 1
     return col == 0 or fn.getline("."):sub(col, col):match("%s")
 end
+
+-- -- Backup & Persistent Undo
+vim.cmd([[
+
+silent call system('mkdir -p $HOME/.config/nvim/tmp/backup')
+silent call system('mkdir -p $HOME/.config/nvim/tmp/undo')
+
+"silent !mkdir -p $HOME/.config/nvim/tmp/sessions
+set backupdir=$HOME/.config/nvim/tmp/backup,.
+set directory=$HOME/.config/nvim/tmp/backup,.
+if has('persistent_undo')
+	set undofile
+	set undodir=$HOME/.config/nvim/tmp/undo,.
+endif
+]])

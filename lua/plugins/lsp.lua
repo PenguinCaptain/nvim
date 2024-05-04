@@ -91,27 +91,44 @@ return {
                     vim.g.code_action_menu_show_diff = false
                 end,
             },
+            { "ray-x/lsp_signature.nvim" },
         },
         config = function()
-            local ih = require("lsp-inlayhints")
-            ih.setup()
-
             -- This is where all the LSP shenanigans will live
+            local ih = require("lsp-inlayhints")
             local lsp_zero = require("lsp-zero")
             lsp_zero.extend_lspconfig()
 
-            lsp_zero.on_attach(function(_, bufnr)
-                -- see :help lsp-zero-keybindings
-                -- to learn the available actions
-                lsp_zero.default_keymaps({
+            lsp_zero.on_attach(function(client, bufnr)
+                local wk = require("which-key")
+                local fmt = function(cmd)
+                    return function(str)
+                        return cmd:format(str)
+                    end
+                end
+                local lsp = fmt("<cmd>lua vim.lsp.%s<cr>")
+                local lsp_telescope = fmt("<cmd>Telescope lsp_%s<cr>")
+                local diagnostic = fmt("<cmd>lua vim.diagnostic.%s<cr>")
+                wk.register({
+                    g = {
+                        d = { lsp_telescope("definitions"), "Jump to definition" },
+                        D = { lsp("buf.declaration()"), "Jump to declaration" },
+                        i = { lsp_telescope("implementations"), "Jump to implementation" },
+                        o = { lsp_telescope("type_definitions"), "Jump to type definition" },
+                        r = { lsp_telescope("references"), "Jump to references" },
+                        s = { lsp("buf.signature_help()"), "Show signature help" },
+                        l = { diagnostic("open_float()"), "Show diagnostics" },
+                    },
+                    ["rn"] = { lsp("buf.rename()"), "Rename" },
+                    ["<M-CR>"] = { ":CodeActionMenu<cr>", "Code actions" },
+                    ["[g"] = { diagnostic("goto_prev()"), "Previous diagnostic" },
+                    ["]g"] = { diagnostic("goto_next()"), "Next diagnostic" },
+                }, {
                     buffer = bufnr,
-                    exclude = { "K", "<F3>", "<F4>" },
+                    silent = true,
                 })
-                local opts = { buffer = bufnr, silent = true }
-                vim.keymap.set("n", "rn", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-                vim.keymap.set("n", "<M-CR>", ":CodeActionMenu<cr>", opts)
-                vim.keymap.set("n", "[g", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
-                vim.keymap.set("n", "]g", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
+
+                ih.on_attach(client, bufnr)
             end)
 
             lsp_zero.set_server_config({
@@ -125,14 +142,84 @@ return {
                 },
             })
 
-            require("lspconfig").lua_ls.setup({
-                on_attach = function(client, bufnr)
-                    ih.on_attach(client, bufnr)
+            local group = vim.api.nvim_create_augroup("lsp_diagnostics_hold", { clear = true })
+            vim.api.nvim_create_autocmd({ "CursorHold" }, {
+                pattern = "*",
+                callback = function()
+                    vim.diagnostic.open_float(0, {
+                        scope = "cursor",
+                        focusable = false,
+                        zindex = 10,
+                        close_events = {
+                            "CursorMoved",
+                            "CursorMovedI",
+                            "BufHidden",
+                            "InsertCharPre",
+                            "InsertEnter",
+                            "WinLeave",
+                            "ModeChanged",
+                        },
+                    })
                 end,
+                group = group,
+            })
+
+            require("lsp_signature").setup({
+                bind = true,
+                hint_enable = false,
+                hint_prefix = "",
+                handler_opts = {
+                    border = "rounded",
+                },
+            })
+
+            ih.setup({
+                inlay_hints = {
+                    only_current_line = false,
+                    -- whether to align to the length of the longest line in the file
+                    max_len_align = false,
+                    -- padding from the left if max_len_align is true
+                    max_len_align_padding = 1,
+                },
+            })
+
+            -- vim.cmd("hi link LspInlayHint Comment")
+
+            local lspc = require("lspconfig")
+            lspc.lua_ls.setup({
                 settings = {
                     Lua = {
                         hint = {
                             enable = true,
+                        },
+                    },
+                },
+            })
+
+            lspc.tsserver.setup({
+                settings = {
+                    typescript = {
+                        inlayHints = {
+                            includeInlayParameterNameHints = "all",
+                            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                            includeInlayFunctionParameterTypeHints = true,
+                            includeInlayVariableTypeHints = true,
+                            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                            includeInlayPropertyDeclarationTypeHints = true,
+                            includeInlayFunctionLikeReturnTypeHints = true,
+                            includeInlayEnumMemberValueHints = true,
+                        },
+                    },
+                    javascript = {
+                        inlayHints = {
+                            includeInlayParameterNameHints = "all",
+                            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                            includeInlayFunctionParameterTypeHints = true,
+                            includeInlayVariableTypeHints = true,
+                            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                            includeInlayPropertyDeclarationTypeHints = true,
+                            includeInlayFunctionLikeReturnTypeHints = true,
+                            includeInlayEnumMemberValueHints = true,
                         },
                     },
                 },

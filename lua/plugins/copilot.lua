@@ -4,5 +4,5 @@ return {
         vim.cmd([[
         imap <silent><script><expr> \\ copilot#Accept("\<CR>")
         ]])
-    end
+    end,
 }
