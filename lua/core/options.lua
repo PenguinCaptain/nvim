@@ -71,6 +71,13 @@ opt.signcolumn = "yes"
 -- Copilot
 g.copilot_no_tab_map = true
 
+-- diagnostic
+vim.diagnostic.config({
+    virtual_text = {
+        severity = { min = vim.diagnostic.severity.WARN },
+    },
+})
+
 opt.hidden = true
 opt.updatetime = 300
 opt.shortmess:append("c")
@@ -80,7 +87,7 @@ function _G.check_back_space()
     return col == 0 or fn.getline("."):sub(col, col):match("%s")
 end
 
--- -- Backup & Persistent Undo
+-- Backup & Persistent Undo
 vim.cmd([[
 
 silent call system('mkdir -p $HOME/.config/nvim/tmp/backup')
@@ -94,3 +101,6 @@ if has('persistent_undo')
 	set undodir=$HOME/.config/nvim/tmp/undo,.
 endif
 ]])
+
+-- Leader
+vim.g.mapleader = " "

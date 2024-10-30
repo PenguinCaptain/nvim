@@ -146,7 +146,7 @@ return {
             vim.api.nvim_create_autocmd({ "CursorHold" }, {
                 pattern = "*",
                 callback = function()
-                    vim.diagnostic.open_float(0, {
+                    vim.diagnostic.open_float({
                         scope = "cursor",
                         focusable = false,
                         zindex = 10,
@@ -196,40 +196,99 @@ return {
                 },
             })
 
-            lspc.tsserver.setup({
-                settings = {
-                    typescript = {
-                        inlayHints = {
-                            includeInlayParameterNameHints = "all",
-                            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                            includeInlayFunctionParameterTypeHints = true,
-                            includeInlayVariableTypeHints = true,
-                            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-                            includeInlayPropertyDeclarationTypeHints = true,
-                            includeInlayFunctionLikeReturnTypeHints = true,
-                            includeInlayEnumMemberValueHints = true,
+            lspc.ts_ls.setup({
+                init_options = {
+                    preferences = {
+                        typescript = {
+                            inlayHints = {
+                                includeInlayParameterNameHints = "all",
+                                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                                includeInlayFunctionParameterTypeHints = true,
+                                includeInlayVariableTypeHints = true,
+                                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                                includeInlayPropertyDeclarationTypeHints = true,
+                                includeInlayFunctionLikeReturnTypeHints = true,
+                                includeInlayEnumMemberValueHints = true,
+                            },
                         },
-                    },
-                    javascript = {
-                        inlayHints = {
-                            includeInlayParameterNameHints = "all",
-                            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                            includeInlayFunctionParameterTypeHints = true,
-                            includeInlayVariableTypeHints = true,
-                            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-                            includeInlayPropertyDeclarationTypeHints = true,
-                            includeInlayFunctionLikeReturnTypeHints = true,
-                            includeInlayEnumMemberValueHints = true,
+                        javascript = {
+                            inlayHints = {
+                                includeInlayParameterNameHints = "all",
+                                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                                includeInlayFunctionParameterTypeHints = true,
+                                includeInlayVariableTypeHints = true,
+                                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                                includeInlayPropertyDeclarationTypeHints = true,
+                                includeInlayFunctionLikeReturnTypeHints = true,
+                                includeInlayEnumMemberValueHints = true,
+                            },
                         },
                     },
                 },
             })
+            lspc.pylsp.setup({
+                settings = {
+                    pylsp = {
+                        plugins = {
+                            ruff = {
+                                enabled = true,
+                                executable = "ruff",
+                            },
+                            autopep8 = {
+                                enabled = false,
+                            },
+                            black = {
+                                enabled = false,
+                            },
+                            yapf = {
+                                enabled = false,
+                            },
+                            pylint = {
+                                enabled = true,
+                                executable = "pylint",
+                                args = { "--rcfile=~/.pylintrc" },
+                            },
+                            flake8 = {
+                                enabled = true,
+                            },
+                        },
+                    },
+                },
+            })
+            -- lspc.tsserver.setup({
+            --     settings = {
+            --         typescript = {
+            --             inlayhints = {
+            --                 includeinlayparameternamehints = "all",
+            --                 includeinlayparameternamehintswhenargumentmatchesname = false,
+            --                 includeinlayfunctionparametertypehints = true,
+            --                 includeinlayvariabletypehints = true,
+            --                 includeinlayvariabletypehintswhentypematchesname = false,
+            --                 includeinlaypropertydeclarationtypehints = true,
+            --                 includeinlayfunctionlikereturntypehints = true,
+            --                 includeinlayenummembervaluehints = true,
+            --             },
+            --         },
+            --         javascript = {
+            --             inlayhints = {
+            --                 includeinlayparameternamehints = "all",
+            --                 includeinlayparameternamehintswhenargumentmatchesname = false,
+            --                 includeinlayfunctionparametertypehints = true,
+            --                 includeinlayvariabletypehints = true,
+            --                 includeinlayvariabletypehintswhentypematchesname = false,
+            --                 includeinlaypropertydeclarationtypehints = true,
+            --                 includeinlayfunctionlikereturntypehints = true,
+            --                 includeinlayenummembervaluehints = true,
+            --             },
+            --         },
+            --     },
+            -- })
 
             require("mason-lspconfig").setup({
                 ensure_installed = {
                     "lua_ls",
                     "jsonls",
-                    "tsserver",
+                    "ts_ls",
                 },
                 handlers = {
                     lsp_zero.default_setup,

@@ -1,3 +1,3 @@
 require("core.options")
-require("core.keymaps")
 require("core.setup")
+require("core.keymaps")

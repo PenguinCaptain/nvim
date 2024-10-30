@@ -9,6 +9,14 @@ return {
                 return { "prettier" }
             end
         end
+
+        local get_ruff = function(bufnr)
+            if require("conform").get_formatter_info("ruff_format", bufnr).available then
+                return { "ruff_fix", "ruff_format", "ruff_organize_imports" }
+            else
+                return { "isort", { "darker", "black" } }
+            end
+        end
         require("conform").setup({
             formatters_by_ft = {
                 javascript = get_eslint,
@@ -22,18 +30,16 @@ return {
                 yaml = get_eslint,
                 svelte = get_eslint,
                 lua = { "stylua" },
-                python = function(bufnr)
-                    if require("conform").get_formatter_info("ruff_format", bufnr).available then
-                        return { "ruff_fix", "ruff_format" }
-                    else
-                        return { "isort", { "darker", "black" } }
-                    end
-                end,
+                python = get_ruff,
                 csharp = { "csharpier" },
             },
+            -- format_on_save = {
+            --     lsp_fallback = true,
+            --     timeout_ms = 500,
+            -- },
             format_on_save = {
-                lsp_fallback = true,
                 timeout_ms = 500,
+                lsp_format = "fallback",
             },
         })
         vim.keymap.set({ "n", "x" }, "<leader>=", function()
@@ -46,15 +52,30 @@ return {
         local util = require("conform.util")
 
         require("conform.formatters.prettierd").env = {
-            PRETTIERD_DEFAULT_CONFIG = vim.fn.expand("~/.config/nvim/default/formatter-configs/.prettierrc.json"),
+            PRETTIERD_DEFAULT_CONFIG = vim.fn.expand("~/.config/nvim/default/editor-configs/.prettierrc.json"),
         }
 
         require("conform").formatters.darker = {
             prepend_args = { "-i", "-f" },
         }
+        require("conform").formatters.eslint_d = {
+            append_args = function()
+                -- local file_types = { "js", "cjs", "yaml", "yml", "json" }
+                -- for _, file_type in pairs(file_types) do
+                --     if file_exists(params.root .. "/.eslintrc." .. file_type) then
+                --         return {}
+                --     end
+                -- end
 
-        require("conform").formatters.ruff_fix = {
-            prepend_args = { "--select", "I" },
+                return {
+                    "--config",
+                    vim.fn.expand("~/.config/nvim/default/editor-configs/.eslintrc.json"),
+                }
+            end,
         }
+
+        -- require("conform").formatters.ruff_fix = {
+        --     prepend_args = { "--select", "I" },
+        -- }
     end,
 }

@@ -1,7 +1,7 @@
 return {
-    'kevinhwang91/nvim-ufo',
+    "kevinhwang91/nvim-ufo",
     dependencies = {
-        'kevinhwang91/promise-async',
+        "kevinhwang91/promise-async",
         {
             "luukvbaal/statuscol.nvim",
             config = function()
@@ -9,8 +9,8 @@ return {
                 require("statuscol").setup({
                     relculright = true,
                     segments = {
-                        { text = { builtin.foldfunc },      click = "v:lua.ScFa" },
-                        { text = { "%s" },                  click = "v:lua.ScSa" },
+                        { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+                        { text = { "%s" }, click = "v:lua.ScSa" },
                         { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
                     },
                 })
@@ -19,11 +19,13 @@ return {
     },
     opts = {
         open_fold_hl_timeout = 150,
-        close_fold_kinds = { "imports", "comment" },
+        close_fold_kinds_for_ft = {
+            default = { "imports", "comment" },
+        },
         win_config = {
-            border = { '', '─', '', '', '', '─', '', '' },
-            winhighlight = 'Normal:Folded',
-            winblend = 0
+            border = { "", "─", "", "", "", "─", "", "" },
+            winhighlight = "Normal:Folded",
+            winblend = 0,
         },
         preview = {
             mappings = {
@@ -32,7 +34,7 @@ return {
                 jumpTop = "[",
                 jumpBot = "]",
             },
-        }
+        },
     },
     config = function(_, opts)
         local handler = function(virtText, lnum, endLnum, width, truncate)
@@ -64,16 +66,16 @@ return {
             return newVirtText
         end
         opts.fold_virt_text_handler = handler
-        require('ufo').setup(opts)
+        require("ufo").setup(opts)
         vim.keymap.set("n", "zR", require("ufo").openAllFolds)
         vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
         vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
-        vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith)
-        vim.keymap.set('n', '<leader>k', function()
-            local winid = require('ufo').peekFoldedLinesUnderCursor()
+        vim.keymap.set("n", "zm", require("ufo").closeFoldsWith)
+        vim.keymap.set("n", "<leader>k", function()
+            local winid = require("ufo").peekFoldedLinesUnderCursor()
             if not winid then
                 vim.lsp.buf.hover()
             end
         end)
-    end
+    end,
 }

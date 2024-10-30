@@ -1,12 +1,8 @@
-vim.g.mapleader = " "
-
-local keymap = vim.keymap
-local opts = { silent = true, noremap = true }
+local wk = require("which-key")
 
 local isOnWindows = function()
-    local uname = vim.loop.os_uname()
+    local uname = vim.uv.os_uname()
     local sysname = uname.sysname
-    print(sysname)
     if sysname:find("Windows") then
         return true
     end
@@ -16,83 +12,68 @@ local isOnWindows = function()
     return false
 end
 
--- ESC
-keymap.set("i", "kk", "<ESC>", opts)
+-- Add mappings using which-key's wk.add()
+wk.add({
+    -- ESC
+    { "kk", "<ESC>", mode = "i", desc = "Escape insert mode" },
 
--- Move visual up and down
-keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv", opts)
-keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", opts)
+    -- Move visual up and down
+    { "<C-j>", ":m '>+1<CR>gv=gv", mode = "v", desc = "Move selection down" },
+    { "<C-k>", ":m '<-2<CR>gv=gv", mode = "v", desc = "Move selection up" },
 
--- Faster Navigation
-keymap.set("n", "J", "5j", opts)
-keymap.set("n", "K", "5k", opts)
-keymap.set("v", "J", "5j", opts)
-keymap.set("v", "K", "5k", opts)
+    -- Faster Navigation
+    { "J", "5j", mode = { "n", "v" }, desc = "Jump down 5 lines" },
+    { "K", "5k", mode = { "n", "v" }, desc = "Jump up 5 lines" },
 
--- Split
-keymap.set("n", "<leader>sv", "<C-w>v", { silent = true, noremap = true, desc = "Split vertically" })
-keymap.set("n", "<leader>sh", "<C-w>s", { silent = true, noremap = true, desc = "Split horizontally" })
+    -- Split
+    { "<leader>s", group = "Split" },
+    { "<leader>sv", "<C-w>v", desc = "Split vertically" },
+    { "<leader>sh", "<C-w>s", desc = "Split horizontally" },
+    { "<leader>sq", "<C-w>q", desc = "Close split" },
 
-keymap.set("n", "<leader>tv", "<C-w>v:term<cr>", { silent = true, noremap = true, desc = "Split terminal vertically" })
-keymap.set(
-    "n",
-    "<leader>th",
-    "<C-w>s:term<cr>",
-    { silent = true, noremap = true, desc = "Split terminal horizontally" }
-)
+    -- Split terminal
+    { "<leader>t", group = "Create split terminal" },
+    { "<leader>tv", "<C-w>v:term<cr>", desc = "Vertical terminal split" },
+    { "<leader>th", "<C-w>s:term<cr>", desc = "Horizontal terminal split" },
 
--- No Highlight
-keymap.set("n", "<leader>nh", ":nohl<CR>", { silent = true, noremap = true, desc = "No Highlight" })
+    -- No Highlight
+    { "<leader>nh", ":nohl<CR>", desc = "Clear search highlight" },
 
--- Clear DOS file format control chars
-keymap.set("n", "<leader>nm", ":e ++ff=dos<CR> :set ff=unix<CR> :w<CR>", opts)
+    -- Clear DOS file format control chars
+    { "<leader>nm", ":e ++ff=dos<CR> :set ff=unix<CR> :w<CR>", desc = "Convert DOS to Unix file format" },
 
--- Nvim Tree
-keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { silent = true, noremap = true, desc = "Toggle Nvim Tree" })
+    -- Nvim Tree
+    { "<leader>e", ":NvimTreeToggle<CR>", desc = "Toggle Nvim Tree" },
 
--- Remap CTRL+v
+    -- Bufferline
+    { "<S-l>", ":bnext<CR>", desc = "Next buffer" },
+    { "<S-h>", ":bprevious<CR>", desc = "Previous buffer" },
+
+    -- Stay in indent mode
+    { "<", "<gv", mode = "v", desc = "Indent line left" },
+    { ">", ">gv", mode = "v", desc = "Indent line right" },
+
+    -- Better terminal navigation
+    -- { "<C-w>", "<C-\\><C-n><C-w><cr>", mode = "t", desc = "Terminal Window" },
+
+    -- Toggle wrap mode
+    { "<leader>wp", ":ToggleWrapMode<CR>", desc = "Toggle Wrap Mode" },
+
+    -- Destroy buffer
+    -- { "<leader>q", ":b#<bar>bd<CR>", desc = "Close buffer" },
+    -- { "<leader>Q", ":b#<bar>bd!<CR>", desc = "Force close buffer" },
+
+    -- Yank diagnostic error
+    { "<leader>y?", ":lua YankDiagnosticError()<CR>", desc = "Copy diagnostic error" },
+})
+
+-- Remap CTRL+v for Windows
 if isOnWindows() then
-    keymap.set("", "<M-v>", "<C-v>", opts)
-    keymap.set("!", "<M-v>", "<C-v>", opts)
+    wk.add({
+        { "<M-v>", "<C-v>", mode = "", desc = "Remap CTRL+v on Windows" },
+        { "<M-v>", "<C-v>", mode = "!", desc = "Remap CTRL+v on Windows" },
+    })
 end
-
---Bufferline
-keymap.set("n", "<S-l>", ":bnext<CR>", opts)
-keymap.set("n", "<S-h>", ":bprevious<CR>", opts)
-
--- Stay in indent mode
-keymap.set("v", "<", "<gv", opts)
-keymap.set("v", ">", ">gv", opts)
-
-function _G.set_terminal_keymaps()
-    local term_opts = { buffer = 0 }
-    keymap.set("t", "<esc>", [[<C-\><C-n>]], term_opts)
-    keymap.set("t", "<C-h>", "<C-\\><C-N>:lua require'tmux'.move_left()<CR>", term_opts)
-    keymap.set("t", "<C-j>", "<C-\\><C-N>:lua require'tmux'.move_bottom()<CR>", term_opts)
-    keymap.set("t", "<C-k>", "<C-\\><C-N>:lua require'tmux'.move_top()<CR>", term_opts)
-    keymap.set("t", "<C-l>", "<C-\\><C-N>:lua require'tmux'.move_right()<CR>", term_opts)
-    keymap.set("t", "<C-w>", [[<C-\><C-n><C-w>]], term_opts)
-end
-
-vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
-
--- Better terminal navigation
-keymap.set("t", "<C-w>", "<C-\\><C-n><C-w><cr>", opts)
-
--- Wrapping
-keymap.set("n", "<leader>wp", ":ToggleWrapMode<CR>", { silent = true, noremap = true, desc = "Toggle Wrap Mode" })
-
--- Destroy the buffer
-keymap.set("n", "<leader>q", ":bd<CR>", { silent = true, noremap = true, desc = "Destroy the buffer" })
-
-keymap.set("n", "<leader>Q", ":bd!<CR>", { silent = true, noremap = true, desc = "Force destroy the buffer" })
-
-vim.api.nvim_set_keymap(
-    "n",
-    "<leader>?",
-    [[:lua YankDiagnosticError()<CR>]],
-    { noremap = true, silent = true, desc = "Copy error" }
-)
 
 function YankDiagnosticError()
     vim.diagnostic.open_float()
@@ -103,3 +84,17 @@ function YankDiagnosticError()
     vim.cmd("normal! y") -- yank selected text
     vim.api.nvim_win_close(win_id, true) -- close the floating window by its ID
 end
+
+function _G.set_terminal_keymaps()
+    local term_opts = { buffer = 0 }
+    wk.add({
+        { "<esc>", [[<C-\><C-n>]], mode = "t", desc = "Escape terminal mode" },
+        { "<C-h>", "<C-\\><C-N>:lua require'tmux'.move_left()<CR>", mode = "t", desc = "Move left in terminal" },
+        { "<C-j>", "<C-\\><C-N>:lua require'tmux'.move_bottom()<CR>", mode = "t", desc = "Move down in terminal" },
+        { "<C-k>", "<C-\\><C-N>:lua require'tmux'.move_top()<CR>", mode = "t", desc = "Move up in terminal" },
+        { "<C-l>", "<C-\\><C-N>:lua require'tmux'.move_right()<CR>", mode = "t", desc = "Move right in terminal" },
+        { "<C-w>", [[<C-\><C-n><C-w>]], mode = "t", desc = "Terminal window" },
+    })
+end
+
+vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
