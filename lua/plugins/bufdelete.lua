@@ -1,8 +1,8 @@
 return {
     "famiu/bufdelete.nvim",
     keys = {
-        { "<leader>q", ":Bdelete<CR>", desc = "Close current buffer" },
-        { "<leader>Q", ":Bdelete!<CR>", desc = "Force close current buffer" },
+        { "<leader>q", ":Bdelete<CR>", desc = "Close current buffer", silent = true },
+        { "<leader>Q", ":Bdelete!<CR>", desc = "Force close current buffer", silent = true },
     },
     config = function()
         -- Automatically close empty buffers

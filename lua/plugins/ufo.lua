@@ -66,16 +66,25 @@ return {
             return newVirtText
         end
         opts.fold_virt_text_handler = handler
-        require("ufo").setup(opts)
-        vim.keymap.set("n", "zR", require("ufo").openAllFolds)
-        vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
-        vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
-        vim.keymap.set("n", "zm", require("ufo").closeFoldsWith)
-        vim.keymap.set("n", "<leader>k", function()
-            local winid = require("ufo").peekFoldedLinesUnderCursor()
-            if not winid then
-                vim.lsp.buf.hover()
-            end
-        end)
+        local ufo = require("ufo")
+        local wk = require("which-key")
+        ufo.setup(opts)
+        wk.add({
+            { "z", group = "fold" },
+            { "zR", ufo.openAllFolds, desc = "Open all folds" },
+            { "zM", ufo.closeAllFolds, desc = "Close all folds" },
+            { "zr", ufo.openFoldsExceptKinds, desc = "Open folds except kinds" },
+            { "zm", ufo.closeFoldsWith, desc = "Close folds with kinds" },
+            {
+                "<leader>k",
+                function()
+                    local winid = require("ufo").peekFoldedLinesUnderCursor()
+                    if not winid then
+                        vim.lsp.buf.hover()
+                    end
+                end,
+                desc = "Open Hover",
+            },
+        })
     end,
 }

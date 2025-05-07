@@ -26,6 +26,9 @@ return {
             },
             { "saadparwaiz1/cmp_luasnip" },
             { "hrsh7th/cmp-nvim-lua" },
+            { "hrsh7th/cmp-path" },
+            { "hrsh7th/cmp-calc" },
+            { "hrsh7th/cmp-emoji" },
             { "onsails/lspkind.nvim" },
         },
         config = function()
@@ -43,6 +46,9 @@ return {
                 sources = {
                     { name = "nvim_lsp" },
                     { name = "nvim_lua" },
+                    { name = "path" },
+                    { name = "calc" },
+                    { name = "emoji" },
                     { name = "luasnip" },
                 },
                 mapping = cmp.mapping.preset.insert({
@@ -109,24 +115,26 @@ return {
                 local lsp = fmt("<cmd>lua vim.lsp.%s<cr>")
                 local lsp_telescope = fmt("<cmd>Telescope lsp_%s<cr>")
                 local diagnostic = fmt("<cmd>lua vim.diagnostic.%s<cr>")
-                wk.register({
-                    g = {
-                        d = { lsp_telescope("definitions"), "Jump to definition" },
-                        D = { lsp("buf.declaration()"), "Jump to declaration" },
-                        i = { lsp_telescope("implementations"), "Jump to implementation" },
-                        o = { lsp_telescope("type_definitions"), "Jump to type definition" },
-                        r = { lsp_telescope("references"), "Jump to references" },
-                        s = { lsp("buf.signature_help()"), "Show signature help" },
-                        l = { diagnostic("open_float()"), "Show diagnostics" },
-                    },
-                    ["rn"] = { lsp("buf.rename()"), "Rename" },
-                    ["<M-CR>"] = { ":CodeActionMenu<cr>", "Code actions" },
-                    ["[g"] = { diagnostic("goto_prev()"), "Previous diagnostic" },
-                    ["]g"] = { diagnostic("goto_next()"), "Next diagnostic" },
-                }, {
-                    buffer = bufnr,
+
+                wk.add({
+                    -- buffer = bufnr,
                     silent = true,
+                    { "g", group = "Jump" },
+                    { "gd", lsp_telescope("definitions"), desc = "Jump to definition" },
+                    { "gD", lsp("buf.declaration()"), desc = "Jump to declaration" },
+                    { "gi", lsp_telescope("implementations"), desc = "Jump to implementation" },
+                    { "go", lsp_telescope("type_definitions"), desc = "Jump to type definition" },
+                    { "gr", lsp_telescope("references"), desc = "Jump to references" },
+                    { "gs", lsp("buf.signature_help()"), desc = "Jump to signature help" },
+                    {
+                        mode = { "n", "i" },
+                        { "<M-CR>", "<cmd>CodeActionMenu<cr>", desc = "Code actions" },
+                    },
+                    { "rn", lsp("buf.rename()"), desc = "Rename" },
+                    { "[g", diagnostic("goto_prev()"), desc = "Previous diagnostic" },
+                    { "]g", diagnostic("goto_next()"), desc = "Next diagnostic" },
                 })
+                -- gl = { diagnostic("open_float()"), "Show diagnostics" },
 
                 ih.on_attach(client, bufnr)
             end)
@@ -185,104 +193,13 @@ return {
 
             -- vim.cmd("hi link LspInlayHint Comment")
 
-            local lspc = require("lspconfig")
-            lspc.lua_ls.setup({
-                settings = {
-                    Lua = {
-                        hint = {
-                            enable = true,
-                        },
-                    },
-                },
-            })
-
-            lspc.ts_ls.setup({
-                init_options = {
-                    preferences = {
-                        typescript = {
-                            inlayHints = {
-                                includeInlayParameterNameHints = "all",
-                                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                                includeInlayFunctionParameterTypeHints = true,
-                                includeInlayVariableTypeHints = true,
-                                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-                                includeInlayPropertyDeclarationTypeHints = true,
-                                includeInlayFunctionLikeReturnTypeHints = true,
-                                includeInlayEnumMemberValueHints = true,
-                            },
-                        },
-                        javascript = {
-                            inlayHints = {
-                                includeInlayParameterNameHints = "all",
-                                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                                includeInlayFunctionParameterTypeHints = true,
-                                includeInlayVariableTypeHints = true,
-                                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-                                includeInlayPropertyDeclarationTypeHints = true,
-                                includeInlayFunctionLikeReturnTypeHints = true,
-                                includeInlayEnumMemberValueHints = true,
-                            },
-                        },
-                    },
-                },
-            })
-            lspc.pylsp.setup({
-                settings = {
-                    pylsp = {
-                        plugins = {
-                            ruff = {
-                                enabled = true,
-                                executable = "ruff",
-                            },
-                            autopep8 = {
-                                enabled = false,
-                            },
-                            black = {
-                                enabled = false,
-                            },
-                            yapf = {
-                                enabled = false,
-                            },
-                            pylint = {
-                                enabled = true,
-                                executable = "pylint",
-                                args = { "--rcfile=~/.pylintrc" },
-                            },
-                            flake8 = {
-                                enabled = true,
-                            },
-                        },
-                    },
-                },
-            })
-            -- lspc.tsserver.setup({
-            --     settings = {
-            --         typescript = {
-            --             inlayhints = {
-            --                 includeinlayparameternamehints = "all",
-            --                 includeinlayparameternamehintswhenargumentmatchesname = false,
-            --                 includeinlayfunctionparametertypehints = true,
-            --                 includeinlayvariabletypehints = true,
-            --                 includeinlayvariabletypehintswhentypematchesname = false,
-            --                 includeinlaypropertydeclarationtypehints = true,
-            --                 includeinlayfunctionlikereturntypehints = true,
-            --                 includeinlayenummembervaluehints = true,
-            --             },
-            --         },
-            --         javascript = {
-            --             inlayhints = {
-            --                 includeinlayparameternamehints = "all",
-            --                 includeinlayparameternamehintswhenargumentmatchesname = false,
-            --                 includeinlayfunctionparametertypehints = true,
-            --                 includeinlayvariabletypehints = true,
-            --                 includeinlayvariabletypehintswhentypematchesname = false,
-            --                 includeinlaypropertydeclarationtypehints = true,
-            --                 includeinlayfunctionlikereturntypehints = true,
-            --                 includeinlayenummembervaluehints = true,
-            --             },
-            --         },
-            --     },
-            -- })
+            local capabilities =
+                require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+            local servers = require("plugins.lsp.servers")
+            for server, opts in pairs(servers) do
+                opts.capabilities = capabilities
+                require("lspconfig")[server].setup(opts)
+            end
 
             require("mason-lspconfig").setup({
                 ensure_installed = {
