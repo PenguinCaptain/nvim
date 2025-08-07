@@ -28,6 +28,7 @@ return {
         },
     },
     cmd = "Trouble",
+
     keys = {
         {
             "<leader>xx",

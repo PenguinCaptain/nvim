@@ -42,9 +42,6 @@ wk.add({
     -- Clear DOS file format control chars
     { "<leader>nm", ":e ++ff=dos<CR> :set ff=unix<CR> :w<CR>", desc = "Convert DOS to Unix file format" },
 
-    -- Nvim Tree
-    { "<leader>e", ":NvimTreeToggle<CR>", desc = "Toggle Nvim Tree" },
-
     -- Bufferline
     { "<S-l>", ":bnext<CR>", desc = "Next buffer" },
     { "<S-h>", ":bprevious<CR>", desc = "Previous buffer" },
