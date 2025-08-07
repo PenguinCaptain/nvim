@@ -70,8 +70,8 @@ wk.add({
 -- Remap CTRL+v for Windows
 if isOnWindows() then
     wk.add({
-        { "<M-v>", "<C-v>", mode = "", desc = "Remap CTRL+v on Windows" },
-        { "<M-v>", "<C-v>", mode = "!", desc = "Remap CTRL+v on Windows" },
+        { "<M-v>", "<C-v>", mode = "n", desc = "Remap CTRL+v on Windows" },
+        -- { "<M-v>", "<C-v>", mode = "n", desc = "Remap CTRL+v on Windows" },
     })
 end
 
