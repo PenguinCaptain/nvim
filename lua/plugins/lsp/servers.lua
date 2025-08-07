@@ -46,7 +46,6 @@ return {
         },
         filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "typescript.tsx", "vue" },
     },
-    volar = {},
     pylsp = {
         {
             settings = {
@@ -97,6 +96,15 @@ return {
         cmd = { "clangd", "--offset-encoding=utf-16" },
     },
     html = {},
+    rust_analyzer = {
+        settings = {
+            ["rust-analyzer"] = {
+                diagnostics = {
+                    enable = true,
+                },
+            },
+        },
+    },
     -- lspc.tsserver.setup({
     --     settings = {
     --         typescript = {
