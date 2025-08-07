@@ -22,7 +22,7 @@ return {
                 javascript = get_eslint,
                 typescript = get_eslint,
                 vue = get_eslint,
-                html = get_eslint,
+                html = { "html_beautify" },
                 css = get_eslint,
                 scss = get_eslint,
                 json = get_eslint,
@@ -32,6 +32,7 @@ return {
                 lua = { "stylua" },
                 python = get_ruff,
                 csharp = { "csharpier" },
+                cpp = { "clang-format" },
             },
             -- format_on_save = {
             --     lsp_fallback = true,
@@ -74,6 +75,9 @@ return {
             end,
         }
 
+        require("conform").formatters.clang_format = {
+            prepend_args = { "--style=file:" .. vim.fn.expand("~/.config/nvim/default/editor-configs/.clang-format") },
+        }
         -- require("conform").formatters.ruff_fix = {
         --     prepend_args = { "--select", "I" },
         -- }
