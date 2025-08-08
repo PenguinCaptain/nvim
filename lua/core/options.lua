@@ -16,7 +16,7 @@ opt.autoindent = true
 
 -- Fold
 opt.foldcolumn = "1" -- '0' is not bad
-opt.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
+opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 opt.foldlevelstart = 99
 opt.foldenable = true
 opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
@@ -32,8 +32,6 @@ opt.mouse:append("a")
 
 -- System Clipboard
 opt.clipboard:append({ "unnamedplus" })
-
-g.clipboard = false
 
 -- Keep 10 lines above and below the cursor
 opt.scrolloff = 10
