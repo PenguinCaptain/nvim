@@ -36,6 +36,8 @@ opt.clipboard:append({ "unnamed", "unnamedplus" })
 -- Keep 10 lines above and below the cursor
 opt.scrolloff = 10
 
+opt.laststatus = 3
+
 -- Copy highlight
 autocmd("TextYankPost", {
     callback = function()

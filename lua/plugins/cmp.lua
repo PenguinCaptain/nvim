@@ -29,6 +29,11 @@ return {
         ---@module 'blink.cmp'
         ---@type blink.cmp.Config
         opts = {
+            --
+            enabled = function()
+                return not vim.tbl_contains({ "markdown", "AvanteInput" }, vim.bo.filetype)
+            end,
+
             -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
             -- 'super-tab' for mappings similar to vscode (tab to accept)
             -- 'enter' for enter to accept
@@ -49,7 +54,7 @@ return {
             cmdline = {
                 keymap = {
                     preset = "inherit",
-                    ["<Tab>"] = { "show", "select_next", "fallback" },
+                    ["<Tab>"] = { "show_and_insert", "select_next", "fallback" },
                     ["<S-Tab>"] = { "show", "select_prev", "fallback" },
                     ["<CR>"] = {
                         function(cmp)

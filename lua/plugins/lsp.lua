@@ -144,11 +144,11 @@ return {
                 { "rn", vim.lsp.buf.rename, desc = "Rename" },
             })
 
-            local servers = require("plugins.lsp.servers")
-            for server, opts in pairs(servers) do
-                vim.lsp.config(server, opts)
-                vim.lsp.enable(server)
-            end
+            -- local servers = require("plugins.lsp.servers")
+            -- for server, opts in pairs(servers) do
+            --     vim.lsp.config(server, opts)
+            --     vim.lsp.enable(server)
+            -- end
         end,
     },
 }
