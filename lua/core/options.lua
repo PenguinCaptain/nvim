@@ -31,7 +31,7 @@ opt.cursorline = true
 opt.mouse:append("a")
 
 -- System Clipboard
-opt.clipboard:append({ "unnamed", "unnamedplus" })
+opt.clipboard:append({ "unnamedplus" })
 
 -- Keep 10 lines above and below the cursor
 opt.scrolloff = 10
@@ -89,20 +89,7 @@ function _G.check_back_space()
     return col == 0 or fn.getline("."):sub(col, col):match("%s")
 end
 
--- Backup & Persistent Undo
-vim.cmd([[
-
-silent call system('mkdir -p $HOME/.config/nvim/tmp/backup')
-silent call system('mkdir -p $HOME/.config/nvim/tmp/undo')
-
-"silent !mkdir -p $HOME/.config/nvim/tmp/sessions
-set backupdir=$HOME/.config/nvim/tmp/backup,.
-set directory=$HOME/.config/nvim/tmp/backup,.
-if has('persistent_undo')
-	set undofile
-	set undodir=$HOME/.config/nvim/tmp/undo,.
-endif
-]])
+opt.undofile = true
 
 -- Leader
 vim.g.mapleader = " "

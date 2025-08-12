@@ -1,15 +1,20 @@
 local wk = require("which-key")
 
-local isOnWindows = function()
+local isWindows = function()
     local uname = vim.uv.os_uname()
     local sysname = uname.sysname
     if sysname:find("Windows") then
         return true
     end
-    if sysname:find("Linux") and uname.release:find("Microsoft") then
-        return true
+    if sysname:find("Linux") and uname.release:find("microsoft") then
+        return true -- WSL detection
     end
     return false
+end
+
+local isMac = function()
+    local uname = vim.uv.os_uname()
+    return uname.sysname == "Darwin"
 end
 
 -- Add mappings using which-key's wk.add()
@@ -65,10 +70,50 @@ wk.add({
 })
 
 -- Remap CTRL+v for Windows
-if isOnWindows() then
+if isWindows() then
+    print("windows")
     wk.add({
-        { "<M-v>", "<C-v>", mode = "", desc = "Remap CTRL+v on Windows" },
-        { "<M-v>", "<C-v>", mode = "!", desc = "Remap CTRL+v on Windows" },
+        { "<M-v>", "<C-v>", mode = "n", desc = "Remap CTRL+v on Windows" },
+        -- { "<M-v>", "<C-v>", mode = "n", desc = "Remap CTRL+v on Windows" },
+    })
+end
+
+if isMac() then
+    wk.add({
+        {
+            mode = "c",
+            { "<M-Left>", "<C-Left>" },
+            { "<M-Right>", "<C-Right>" },
+            { "<C-Left>", "<C-b>" },
+            { "<C-Right>", "<C-e>" },
+            desc = "Command line motions",
+        },
+        {
+            mode = { "c", "i" },
+            { "<M-BS>", "<C-w>" },
+
+            { "", "<C-u>" },
+            desc = "Text deletion",
+        },
+    })
+else
+    print("notmac")
+    wk.add({
+        {
+            mode = "c",
+            { "<M-Left>", "<C-Left>" },
+            { "<M-Right>", "<C-Right>" },
+            { "<C-Left>", "<C-b>" },
+            { "<C-Right>", "<C-e>" },
+            desc = "Command line motions",
+        },
+        {
+            mode = { "c", "i" },
+            { "<M-BS>", "<C-w>" },
+
+            { "", "<C-u>" },
+            desc = "Text deletion",
+        },
     })
 end
 

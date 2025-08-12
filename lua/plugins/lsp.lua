@@ -5,7 +5,9 @@ return {
     },
     {
         "mason-org/mason-lspconfig.nvim",
-        opts = {},
+        opts = {
+            ensure_installed = { "lua_ls", "rust_analyzer" },
+        },
         dependencies = {
             { "mason-org/mason.nvim", opts = {} },
             "neovim/nvim-lspconfig",
@@ -127,28 +129,26 @@ return {
             wk.add({
                 -- buffer = bufnr,
                 silent = true,
-                { "g", group = "Jump" },
-                { "gd", Snacks.picker.lsp_definitions, desc = "Jump to definition" },
-                { "gD", Snacks.picker.lsp_declarations, desc = "Jump to declaration" },
-                { "gi", Snacks.picker.lsp_implementations, desc = "Jump to implementation" },
-                { "go", Snacks.picker.lsp_type_definitions, desc = "Jump to type definition" },
-                { "gr", Snacks.picker.lsp_references, desc = "Jump to references" },
+                { "g",          group = "Jump" },
+                { "gd",         Snacks.picker.lsp_definitions,       desc = "Jump to definition" },
+                { "gD",         Snacks.picker.lsp_declarations,      desc = "Jump to declaration" },
+                { "gi",         Snacks.picker.lsp_implementations,   desc = "Jump to implementation" },
+                { "go",         Snacks.picker.lsp_type_definitions,  desc = "Jump to type definition" },
+                { "gr",         Snacks.picker.lsp_references,        desc = "Jump to references" },
 
-                { "gs", vim.lsp.buf.signature_help, desc = "Jump to signature help" },
-                { "<leader>ss", Snacks.picker.lsp_symbols, desc = "LSP Symbols" },
+                { "gs",         vim.lsp.buf.signature_help,          desc = "Jump to signature help" },
+                { "<leader>ss", Snacks.picker.lsp_symbols,           desc = "LSP Symbols" },
                 { "<leader>sS", Snacks.picker.lsp_workspace_symbols, desc = "LSP Workspace Symbols" },
                 -- {
                 --     mode = { "n", "i" },
                 --     { "<M-CR>", "<cmd>CodeActionMenu<cr>", desc = "Code actions" },
                 -- },
-                { "rn", vim.lsp.buf.rename, desc = "Rename" },
+                { "rn",         vim.lsp.buf.rename,                  desc = "Rename" },
             })
-
-            -- local servers = require("plugins.lsp.servers")
-            -- for server, opts in pairs(servers) do
-            --     vim.lsp.config(server, opts)
-            --     vim.lsp.enable(server)
-            -- end
+            local servers = require("plugins.lsp.servers")
+            for server, opts in pairs(servers) do
+                vim.lsp.config(server, opts)
+            end
         end,
     },
 }

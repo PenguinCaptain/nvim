@@ -1,6 +1,18 @@
 return {
     "stevearc/conform.nvim",
     event = { "BufReadPre", "BufNewFile" },
+    cmd = { "ConformInfo" },
+    keys = {
+        {
+            -- Customize or remove this keymap to your liking
+            "<leader>=",
+            function()
+                require("conform").format({ async = true, lsp_format = "fallback" })
+            end,
+            mode = "",
+            desc = "Format buffer",
+        },
+    },
     config = function()
         local get_eslint = function(bufnr)
             if require("conform").get_formatter_info("eslint_d", bufnr).available then
@@ -14,13 +26,15 @@ return {
             if require("conform").get_formatter_info("ruff_format", bufnr).available then
                 return { "ruff_fix", "ruff_format", "ruff_organize_imports" }
             else
-                return { "isort", { "darker", "black" } }
+                return { "isort", "black" }
             end
         end
         require("conform").setup({
             formatters_by_ft = {
                 javascript = get_eslint,
                 typescript = get_eslint,
+                javascriptreact = get_eslint,
+                typescriptreact = get_eslint,
                 vue = get_eslint,
                 html = { "html_beautify" },
                 css = get_eslint,
@@ -33,6 +47,7 @@ return {
                 python = get_ruff,
                 csharp = { "csharpier" },
                 cpp = { "clang-format" },
+                rust = { "rustfmt" },
             },
             -- format_on_save = {
             --     lsp_fallback = true,
@@ -43,12 +58,6 @@ return {
                 lsp_format = "fallback",
             },
         })
-        vim.keymap.set({ "n", "x" }, "<leader>=", function()
-            require("conform").format({
-                lsp_fallback = true,
-                async = true,
-            })
-        end, { silent = true })
 
         local util = require("conform.util")
 
