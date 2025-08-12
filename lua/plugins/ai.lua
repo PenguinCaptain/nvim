@@ -10,12 +10,13 @@ return {
         "yetone/avante.nvim",
         event = "VeryLazy",
         version = false, -- Never set this value to "*"! Never!
+        commit = "16c58c2",
         opts = {
             -- add any opts here
             -- for example
             provider = "claude",
             auto_suggestions_provider = "claude",
-            cursor_applying_provider = nil,
+            cursor_applying_provider = "claude",
             providers = {
                 claude = {
                     endpoint = "https://api.anthropic.com",
