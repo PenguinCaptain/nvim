@@ -8,6 +8,28 @@ return {
             },
         },
     },
+    tailwindcss = {
+        filetypes = { "rust" },
+        settings = {
+            tailwindCSS = {
+                includeLanguages = {
+                    rust = "html",
+                    ["*.rs"] = "html",
+                },
+            },
+        },
+    },
+    emmet_language_server = {
+        filetypes = { "rust" },
+        settings = {
+            init_options = {
+                includeLanguages = {
+                    rust = "html",
+                    ["*.rs"] = "html",
+                },
+            },
+        },
+    },
     ts_ls = {
         init_options = {
             plugins = {
@@ -96,15 +118,6 @@ return {
         cmd = { "clangd", "--offset-encoding=utf-16" },
     },
     html = {},
-    rust_analyzer = {
-        settings = {
-            ["rust-analyzer"] = {
-                diagnostics = {
-                    enable = true,
-                },
-            },
-        },
-    },
     -- lspc.tsserver.setup({
     --     settings = {
     --         typescript = {

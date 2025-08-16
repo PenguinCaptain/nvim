@@ -1,10 +1,10 @@
 return {
     "0x00-ketsu/autosave.nvim",
     enable = false,
-    -- event = { "InsertLeave", "TextChanged" },
+    -- event = { "InsertLeave" },
     -- config = function()
     --     require("autosave").setup({
-    --         debounce_delay = 1500,
+    --         debounce_delay = 3000,
     --     })
     --
     --     vim.keymap.set(
