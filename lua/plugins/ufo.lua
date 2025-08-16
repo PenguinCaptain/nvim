@@ -75,16 +75,6 @@ return {
             { "zM", ufo.closeAllFolds, desc = "Close all folds" },
             { "zr", ufo.openFoldsExceptKinds, desc = "Open folds except kinds" },
             { "zm", ufo.closeFoldsWith, desc = "Close folds with kinds" },
-            {
-                "<leader>k",
-                function()
-                    local winid = require("ufo").peekFoldedLinesUnderCursor()
-                    if not winid then
-                        vim.lsp.buf.hover()
-                    end
-                end,
-                desc = "Open Hover",
-            },
         })
     end,
 }

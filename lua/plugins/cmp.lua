@@ -57,17 +57,14 @@ return {
                     ["<Tab>"] = { "show_and_insert", "select_next", "fallback" },
                     ["<S-Tab>"] = { "show", "select_prev", "fallback" },
                     ["<CR>"] = {
-                        function(cmp)
-                            if cmp.is_menu_visible() then
-                                cmp.accept()
-                            else
-                                vim.api.nvim_feedkeys(
-                                    vim.api.nvim_replace_termcodes("<CR>", true, false, true),
-                                    "n",
-                                    false
-                                )
-                            end
-                        end,
+                        "fallback",
+                        -- function(cmp)
+                        --     -- if cmp.is_menu_visible() then
+                        --     --     cmp.accept_and_enter()
+                        --     -- else
+                        --     vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<CR>", true, false, true), "n", false)
+                        --     -- end
+                        -- end,
                     },
                 },
             },

@@ -71,7 +71,6 @@ wk.add({
 
 -- Remap CTRL+v for Windows
 if isWindows() then
-    print("windows")
     wk.add({
         { "<M-v>", "<C-v>", mode = "n", desc = "Remap CTRL+v on Windows" },
         -- { "<M-v>", "<C-v>", mode = "n", desc = "Remap CTRL+v on Windows" },
@@ -97,7 +96,6 @@ if isMac() then
         },
     })
 else
-    print("notmac")
     wk.add({
         {
             mode = "c",
