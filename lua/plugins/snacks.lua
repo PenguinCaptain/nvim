@@ -4,6 +4,14 @@ return {
     lazy = false,
     ---@type snacks.Config
     opts = {
+        styles = {
+            dashboard = {
+                wo = {
+                    foldcolumn = "0",
+                    foldenable = false,
+                },
+            },
+        },
         bigfile = { enabled = true },
         dashboard = {
             sections = {
@@ -28,7 +36,7 @@ return {
                 { section = "startup" },
             },
         },
-        explorer = { enabled = true },
+        explorer = { enabled = false },
         indent = { enabled = true },
         input = { enabled = true },
         picker = { enabled = true },

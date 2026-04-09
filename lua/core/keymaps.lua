@@ -17,10 +17,13 @@ local isMac = function()
     return uname.sysname == "Darwin"
 end
 
+-- wk's bug that lsp autoenable doesnt respect this
+vim.keymap.set({ "n", "v" }, "K", "5k")
+
 -- Add mappings using which-key's wk.add()
 wk.add({
     -- ESC
-    { "kk", "<ESC>", mode = "i", desc = "Escape insert mode" },
+    -- { "kk", "<ESC>", mode = "i", desc = "Escape insert mode" },
 
     -- Move visual up and down
     { "<C-j>", ":m '>+1<CR>gv=gv", mode = "v", desc = "Move selection down" },

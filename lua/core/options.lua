@@ -52,11 +52,15 @@ autocmd("BufWritePre", {
     command = 'call mkdir(expand("<afile>:p:h"), "p")',
 })
 
--- autocmd("TermOpen", {
---     callback = function()
---         vim.cmd("setlocal nonumber\nnormal a")
---     end,
--- })
+autocmd("TermOpen", {
+    callback = function()
+        vim.cmd("setlocal nonumber")
+        -- fix snack dashboard
+        if vim.api.nvim_buf_get_name(0) ~= "" then
+            vim.cmd("startinsert")
+        end
+    end,
+})
 
 -- Split Direction
 opt.splitright = true

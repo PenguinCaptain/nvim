@@ -1,11 +1,7 @@
 return {
     lua_ls = {
         settings = {
-            Lua = {
-                hint = {
-                    enable = true,
-                },
-            },
+            Lua = {},
         },
     },
     tailwindcss = {
@@ -68,52 +64,52 @@ return {
         },
         filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "typescript.tsx", "vue" },
     },
-    pylsp = {
-        {
-            settings = {
-                pylsp = {
-                    plugins = {
-                        rope_autoimport = {
-                            enabled = false,
-                        },
-                        ruff = {
-                            enabled = true,
-                            executable = "ruff",
-                        },
-                        pylint = {
-                            enabled = true,
-                            executable = "pylint",
-                            args = { "--rcfile=~/.pylintrc" },
-                        },
-                        mccabe = {
-                            enabled = false,
-                        },
-                        flake8 = {
-                            enabled = true,
-                        },
-                        autopep8 = {
-                            enabled = false,
-                        },
-                        black = {
-                            enabled = false,
-                        },
-                        yapf = {
-                            enabled = false,
-                        },
-                        pycodestyle = {
-                            enabled = false,
-                        },
-                        pydocstyle = {
-                            enabled = false,
-                        },
-                        pyflakes = {
-                            enabled = false,
-                        },
-                    },
-                },
-            },
-        },
-    },
+    -- pylsp = {
+    --     {
+    --         settings = {
+    --             pylsp = {
+    --                 plugins = {
+    --                     rope_autoimport = {
+    --                         enabled = false,
+    --                     },
+    --                     ruff = {
+    --                         enabled = true,
+    --                         executable = "ruff",
+    --                     },
+    --                     pylint = {
+    --                         enabled = true,
+    --                         executable = "pylint",
+    --                         args = { "--rcfile=~/.pylintrc" },
+    --                     },
+    --                     mccabe = {
+    --                         enabled = false,
+    --                     },
+    --                     flake8 = {
+    --                         enabled = true,
+    --                     },
+    --                     autopep8 = {
+    --                         enabled = false,
+    --                     },
+    --                     black = {
+    --                         enabled = false,
+    --                     },
+    --                     yapf = {
+    --                         enabled = false,
+    --                     },
+    --                     pycodestyle = {
+    --                         enabled = false,
+    --                     },
+    --                     pydocstyle = {
+    --                         enabled = false,
+    --                     },
+    --                     pyflakes = {
+    --                         enabled = false,
+    --                     },
+    --                 },
+    --             },
+    --         },
+    --     },
+    -- },
     clangd = {
         cmd = { "clangd", "--offset-encoding=utf-16" },
     },
@@ -146,4 +142,11 @@ return {
     --         },
     --     },
     -- })
+    basedpyright = {
+        settings = {
+            python = {
+                pythonPath = vim.fn.getcwd() .. "/.venv/bin/python",
+            },
+        },
+    },
 }
