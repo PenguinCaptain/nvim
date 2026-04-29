@@ -143,7 +143,16 @@ return {
     --     },
     -- })
     basedpyright = {
+        root_markers = {
+            "pyrightconfig.json",
+            ".git",
+        },
         settings = {
+            basedpyright = {
+                analysis = {
+                    diagnosticMode = "workspace",
+                },
+            },
             python = {
                 pythonPath = vim.fn.getcwd() .. "/.venv/bin/python",
             },

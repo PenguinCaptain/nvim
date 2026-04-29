@@ -4,6 +4,29 @@ local api = vim.api
 local fn = vim.fn
 local autocmd = vim.api.nvim_create_autocmd
 
+local uname = vim.uv.os_uname()
+local sysname = uname.sysname
+
+_G.is_wsl = sysname == "Linux" and uname.release:find("microsoft") ~= nil
+_G.is_mac = sysname == "Darwin"
+_G.is_windows = sysname:find("Windows") ~= nil or is_wsl
+
+if is_wsl then
+    g.clipboard = "win32yank"
+    -- g.clipboard = {
+    --     name = "WslClipboard",
+    --     copy = {
+    --         ["+"] = "clip.exe",
+    --         ["*"] = "clip.exe",
+    --     },
+    --     paste = {
+    --         ["+"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    --         ["*"] = 'powershell.exe -NoLogo -NoProfile -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    --     },
+    --     cache_enabled = 0,
+    -- }
+end
+
 -- Line Number
 opt.relativenumber = true
 opt.number = true
@@ -75,13 +98,28 @@ opt.termguicolors = true
 opt.signcolumn = "yes"
 
 -- Copilot
-g.copilot_no_tab_map = true
+-- g.copilot_no_tab_map = true
 
--- diagnostic
+-- Diagnostic
 vim.diagnostic.config({
     virtual_text = {
         severity = { min = vim.diagnostic.severity.WARN },
     },
+})
+
+-- Auto Reload
+vim.o.autoread = true
+
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+    pattern = "*",
+    command = "checktime",
+})
+
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+    pattern = "*",
+    callback = function()
+        vim.notify("File changed on disk. Buffer reloaded.", vim.log.levels.WARN)
+    end,
 })
 
 opt.hidden = true

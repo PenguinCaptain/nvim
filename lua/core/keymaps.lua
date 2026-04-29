@@ -1,22 +1,5 @@
 local wk = require("which-key")
 
-local isWindows = function()
-    local uname = vim.uv.os_uname()
-    local sysname = uname.sysname
-    if sysname:find("Windows") then
-        return true
-    end
-    if sysname:find("Linux") and uname.release:find("microsoft") then
-        return true -- WSL detection
-    end
-    return false
-end
-
-local isMac = function()
-    local uname = vim.uv.os_uname()
-    return uname.sysname == "Darwin"
-end
-
 -- wk's bug that lsp autoenable doesnt respect this
 vim.keymap.set({ "n", "v" }, "K", "5k")
 
@@ -73,14 +56,14 @@ wk.add({
 })
 
 -- Remap CTRL+v for Windows
-if isWindows() then
+if is_windows then
     wk.add({
         { "<M-v>", "<C-v>", mode = "n", desc = "Remap CTRL+v on Windows" },
         -- { "<M-v>", "<C-v>", mode = "n", desc = "Remap CTRL+v on Windows" },
     })
 end
 
-if isMac() then
+if is_mac then
     wk.add({
         {
             mode = "c",
